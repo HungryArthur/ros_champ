@@ -1,0 +1,36 @@
+#VRML_SIM R2025a utf8
+# Based on Webots projects/languages/python/worlds/example.wbt.
+EXTERNPROTO "../protos/TurtleBro.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/CircleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/containers/protos/WoodenBox.proto"
+WorldInfo {
+  title "TurtleBro | Python training"
+  basicTimeStep 16
+  coordinateSystem "ENU"
+  randomSeed 7
+  contactProperties [
+    ContactProperties { material1 "rubber" material2 "floor" coulombFriction [ 1.1 ] bounce 0 }
+    ContactProperties { material1 "caster" material2 "floor" coulombFriction [ 0.001 ] bounce 0 }
+  ]
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.26584326083341214 0.10204766679048613 0.9585998301544165 2.436402765969548
+  position 3.5 -3.5 3.2
+}
+TexturedBackground { skybox FALSE skyColor [ 0.12 0.15 0.20 ] }
+TexturedBackgroundLight { luminosity 0.8 castShadows TRUE }
+CircleArena {
+  radius 1.8
+  wallHeight 0.25
+  wallThickness 0.025
+  floorTileSize 0.5 0.5
+  contactMaterial "floor"
+}
+DEF BOX1 WoodenBox { translation 0.65 0 0.12 rotation 0 0 1 0.5 size 0.24 0.24 0.24 name "crate 1" }
+DEF BOX2 WoodenBox { translation -0.45 0.65 0.12 rotation 0 0 1 0.2 size 0.24 0.24 0.24 name "crate 2" }
+DEF BOX3 WoodenBox { translation 0.5 -0.9 0.12 rotation 0 0 1 0.4 size 0.24 0.24 0.24 name "crate 3" }
+DEF BOX4 WoodenBox { translation -0.85 0.8 0.12 rotation 0 0 1 0.1 size 0.24 0.24 0.24 name "crate 4" }
+DEF BOX5 WoodenBox { translation 0.95 0.75 0.12 rotation 0 0 1 0.4 size 0.24 0.24 0.24 name "crate 5" }
+DEF TURTLEBRO TurtleBro {}
