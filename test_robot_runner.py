@@ -78,6 +78,7 @@ class TurtleBro:
         # Эмуляция установленного пакета, доступного через окружение ROS.
         environment = os.environ.copy()
         environment["PYTHONPATH"] = str(library_folder)
+        environment["PYTHONIOENCODING"] = "utf-8"
         # Используем отдельную программу, чтобы тест не зависел от упражнений в main.py.
         command = (
             "import robot_runner; from pathlib import Path; "
@@ -88,7 +89,7 @@ class TurtleBro:
             env=environment, capture_output=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
-        self.assertIn(b"installed:", result.stdout)
+        self.assertIn("installed:Привет мир", result.stdout.decode("utf-8"))
 
     def test_bootstrap_preserves_program_errors_and_cleans_up(self):
         with self.assertRaisesRegex(RuntimeError, "speech unavailable"):
