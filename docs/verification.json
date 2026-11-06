@@ -1,0 +1,69 @@
+{
+  "checked_on": "2026-11-06",
+  "platform": "Windows",
+  "webots": "R2025a",
+  "unit_tests_passed": 23,
+  "drive_watchdog_passed": true,
+  "cases": [
+    {
+      "target": 1,
+      "completed": true,
+      "duration_sim_seconds": 106.656,
+      "marker_ids_seen": [
+        1
+      ],
+      "light_colors_seen": [
+        "red",
+        "green"
+      ],
+      "parking_error_m": 0.0035414601071092123,
+      "right_lane_offset_min_max_m": [
+        0.1347972945882352,
+        0.20351517722560764
+      ],
+      "red_crossings": 0,
+      "closed_gate_crossings": 0
+    },
+    {
+      "target": 2,
+      "completed": true,
+      "duration_sim_seconds": 110.35200000000003,
+      "marker_ids_seen": [
+        1,
+        2
+      ],
+      "light_colors_seen": [
+        "red",
+        "green"
+      ],
+      "parking_error_m": 0.00347484180644671,
+      "right_lane_offset_min_max_m": [
+        0.1342678691962943,
+        0.20316672768840682
+      ],
+      "red_crossings": 0,
+      "closed_gate_crossings": 0
+    },
+    {
+      "target": 3,
+      "completed": true,
+      "duration_sim_seconds": 115.68000000000006,
+      "marker_ids_seen": [
+        1,
+        2,
+        3
+      ],
+      "light_colors_seen": [
+        "red",
+        "green"
+      ],
+      "parking_error_m": 0.003502324306867194,
+      "right_lane_offset_min_max_m": [
+        0.1362857103473819,
+        0.20381803172588686
+      ],
+      "red_crossings": 0,
+      "closed_gate_crossings": 0
+    }
+  ]
+}

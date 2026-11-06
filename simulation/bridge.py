@@ -9,8 +9,11 @@ from pathlib import Path
 from queue import Empty, Queue
 import subprocess
 import threading
+import time
 
 from controller import Supervisor
+
+from .course import Course
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -44,6 +47,7 @@ class RobotController:
         self.cancel = threading.Event()
         self.commands = Queue()
         self.linear_speed = 0.09
+        self.drive_deadline = None
         self.quit_after = None
         self.initial = []
         for node in [self.node] + [self.robot.getFromDef("BOX%d" % i) for i in range(1, 6)]:
@@ -51,12 +55,16 @@ class RobotController:
                 self.initial.append((node, node.getField("translation").getSFVec3f(),
                                      node.getField("rotation").getSFRotation()))
         self.origin = self.initial[0][1][:]
+        self.course = Course(self.robot, self.node)
         for _ in range(12):
             self.step()
 
     def step(self):
         if self.robot.step(self.dt) == -1:
             raise RuntimeError("Мир Webots закрыт")
+        if self.drive_deadline is not None and time.monotonic() > self.drive_deadline:
+            self.stop()
+        self.course.update()
         key = self.keyboard.getKey()
         while key != -1:
             if ord("1") <= key <= ord("4"):
@@ -82,6 +90,7 @@ class RobotController:
         self.right.setVelocity((linear + angular * self.TRACK / 2) / self.RADIUS)
 
     def stop(self):
+        self.drive_deadline = None
         self.velocity(0)
 
     def move(self, meters):
@@ -186,6 +195,12 @@ class RobotController:
     def handle(self, method, arguments):
         if method == "stop":
             self.stop()
+        elif method == "drive":
+            linear, angular = map(float, arguments)
+            if not math.isfinite(linear) or not math.isfinite(angular) or abs(linear) > 0.2 or abs(angular) > 1.2:
+                raise ValueError("drive: скорость до 0.2 м/с, поворот до 1.2 рад/с")
+            self.velocity(linear, angular)
+            self.drive_deadline = time.monotonic() + 1.0
         elif method == "move":
             self.move(*arguments)
         elif method == "turn":
@@ -227,6 +242,7 @@ class RobotController:
                 node.getField("translation").setSFVec3f(position)
                 node.getField("rotation").setSFRotation(rotation)
                 node.resetPhysics()
+            self.course.reset()
             for _ in range(12):
                 self.step()
         elif method == "snapshot":
@@ -253,6 +269,8 @@ class RobotController:
         elif method == "status":
             return {"pose": self.pose(), "led": self.led.get(), "devices":
                     [self.robot.getDeviceByIndex(i).getName() for i in range(self.robot.getNumberOfDevices())]}
+        elif method == "course_status":
+            return self.course.status()
         elif method == "quit":
             self.quit_after = self.robot.getTime() + 0.25
         else:

@@ -132,6 +132,21 @@ class TurtleBro:
     def stop(self):
         return self._command("stop")
 
+    def drive(self, linear, angular=0):
+        """Плавное движение Webots: м/с и рад/с. Команду нужно обновлять чаще раза в секунду."""
+        linear, angular = float(linear), float(angular)
+        if not math.isfinite(linear) or not math.isfinite(angular) or abs(linear) > 0.2 or abs(angular) > 1.2:
+            raise ValueError("drive: скорость до 0.2 м/с, поворот до 1.2 рад/с")
+        self._command("drive", linear, angular)
+
+    @property
+    def simulation_time(self):
+        return self._command("time")
+
+    def reset(self):
+        """Вернуть учебный мир Webots в начальное состояние."""
+        self._command("reset")
+
 
 class TurtleNav(TurtleBro):
     def __init__(self, *args, **kwargs):

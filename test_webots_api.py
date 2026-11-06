@@ -31,6 +31,12 @@ class WebotsApiTests(unittest.TestCase):
                 self.robot.forward(value)
         self.request.assert_not_called()
 
+    def test_invalid_continuous_speed_is_rejected_before_reaching_the_simulator(self):
+        for linear, angular in ((0.21, 0), (0, 1.21), (float("nan"), 0), (0, float("inf"))):
+            with self.subTest(linear=linear, angular=angular), self.assertRaises(ValueError):
+                self.robot.drive(linear, angular)
+        self.request.assert_not_called()
+
     def test_keyboard_interrupt_sends_stop(self):
         self.request.side_effect = [KeyboardInterrupt, None]
         with self.assertRaises(KeyboardInterrupt):

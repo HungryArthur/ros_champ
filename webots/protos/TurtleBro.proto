@@ -2,8 +2,8 @@
 # TurtleBro: chassis 0.20 x 0.20 m, wheel radius 0.03 m, wheel separation 0.23 m.
 # Geometry: voltbro/turtlebro URDF 57c754c8. Dynamics are training approximations.
 PROTO TurtleBro [
-  field SFVec3f translation -0.9 -0.6 0.003
-  field SFRotation rotation 0 0 1 0
+  field SFVec3f translation 0 -0.1 0.003
+  field SFRotation rotation 0 0 1 -1.57079632679
   field SFString name "TurtleBro"
   field SFString controller "turtlebro_bridge"
 ]
@@ -88,6 +88,7 @@ Lidar {
 }
 Camera {
   translation 0.108 0 0.105
+  rotation 0 1 0 0.12
   name "camera"
   width 640
   height 480

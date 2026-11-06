@@ -70,6 +70,7 @@ def run(program, argv=None):
         help="SSH-адрес робота, например pi@192.168.1.100 (или TURTLEBRO_HOST)",
     )
     parser.add_argument("--port", type=int, default=22, help="Порт SSH (22)")
+    parser.add_argument("--program", type=Path, help="Самостоятельный Python-скрипт для настоящего робота")
     parser.add_argument(
         "--ros-setup", default="~/catkin_ws/devel/setup.bash",
         help="Путь к setup.bash на роботе; пустая строка использует окружение SSH",
@@ -79,7 +80,7 @@ def run(program, argv=None):
         "--local", action="store_true", help="Выполнить на этом устройстве с ROS"
     )
     args = parser.parse_args(argv)
-    program = Path(program).resolve()
+    program = Path(args.program or program).resolve()
 
     if args.local:
         try:
@@ -135,4 +136,4 @@ def run(program, argv=None):
 
 
 if __name__ == "__main__":
-    raise SystemExit(run(Path(__file__).with_name("main.py")))
+    raise SystemExit(run(Path(__file__).parent / "examples/hello_robot.py"))

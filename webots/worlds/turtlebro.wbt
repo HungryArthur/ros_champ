@@ -1,12 +1,8 @@
 #VRML_SIM R2025a utf8
-# Based on Webots projects/languages/python/worlds/example.wbt.
+# Museum road course inspired by the supplied competition photograph.
 EXTERNPROTO "../protos/TurtleBro.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/CircleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/containers/protos/WoodenBox.proto"
 WorldInfo {
-  title "TurtleBro | Python training"
+  title "TurtleBro | Museum tour"
   basicTimeStep 16
   coordinateSystem "ENU"
   randomSeed 7
@@ -16,21 +12,56 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.26584326083341214 0.10204766679048613 0.9585998301544165 2.436402765969548
-  position 3.5 -3.5 3.2
+  orientation -0.33116013596694216 0.15821239096572715 0.9302159984064263 2.305197379384379
+  position 4.2 -5.2 5.5
 }
-TexturedBackground { skybox FALSE skyColor [ 0.12 0.15 0.20 ] }
-TexturedBackgroundLight { luminosity 0.8 castShadows TRUE }
-CircleArena {
-  radius 1.8
-  wallHeight 0.25
-  wallThickness 0.025
-  floorTileSize 0.5 0.5
+Background { skyColor [ 0.21 0.24 0.29 ] }
+DirectionalLight { direction -0.3 0.4 -1 intensity 1 ambientIntensity 0.65 castShadows FALSE }
+DirectionalLight { direction 0.4 -0.5 -1 intensity 0.35 ambientIntensity 0.1 castShadows FALSE }
+Solid {
+  translation 0 0 -0.02
+  name "printed competition floor"
   contactMaterial "floor"
+  children [ Shape {
+    appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/museum-floor.png" ] } metalness 0 roughness 1 }
+    geometry IndexedFaceSet {
+      coord Coordinate { point [ -2.2 -1.9 0.02, 2.2 -1.9 0.02, 2.2 1.9 0.02, -2.2 1.9 0.02 ] }
+      texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] }
+      coordIndex [ 0 1 2 3 -1 ]
+    }
+  } ]
+  boundingObject Box { size 4.4 3.8 0.04 }
 }
-DEF BOX1 WoodenBox { translation 0.65 0 0.12 rotation 0 0 1 0.5 size 0.24 0.24 0.24 name "crate 1" }
-DEF BOX2 WoodenBox { translation -0.45 0.65 0.12 rotation 0 0 1 0.2 size 0.24 0.24 0.24 name "crate 2" }
-DEF BOX3 WoodenBox { translation 0.5 -0.9 0.12 rotation 0 0 1 0.4 size 0.24 0.24 0.24 name "crate 3" }
-DEF BOX4 WoodenBox { translation -0.85 0.8 0.12 rotation 0 0 1 0.1 size 0.24 0.24 0.24 name "crate 4" }
-DEF BOX5 WoodenBox { translation 0.95 0.75 0.12 rotation 0 0 1 0.4 size 0.24 0.24 0.24 name "crate 5" }
+Solid { translation 0 -1.88 0.19 name "wall y -1.88" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.83 0.81 metalness 0 roughness 0.8 } geometry Box { size 4.4 0.035 0.38 } } ] boundingObject Box { size 4.4 0.035 0.38 } }
+Solid { translation 0 -1.88 0.39 name "rail y -1.88" children [ Shape { appearance PBRAppearance { baseColor 0.42 0.46 0.49 metalness 0 roughness 0.8 } geometry Box { size 4.4 0.05 0.025 } } ] }
+Solid { translation 0 1.88 0.19 name "wall y 1.88" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.83 0.81 metalness 0 roughness 0.8 } geometry Box { size 4.4 0.035 0.38 } } ] boundingObject Box { size 4.4 0.035 0.38 } }
+Solid { translation 0 1.88 0.39 name "rail y 1.88" children [ Shape { appearance PBRAppearance { baseColor 0.42 0.46 0.49 metalness 0 roughness 0.8 } geometry Box { size 4.4 0.05 0.025 } } ] }
+Solid { translation -2.18 0 0.19 name "wall x -2.18" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.83 0.81 metalness 0 roughness 0.8 } geometry Box { size 0.035 3.8 0.38 } } ] boundingObject Box { size 0.035 3.8 0.38 } }
+Solid { translation -2.18 0 0.39 name "rail x -2.18" children [ Shape { appearance PBRAppearance { baseColor 0.42 0.46 0.49 metalness 0 roughness 0.8 } geometry Box { size 0.05 3.8 0.025 } } ] }
+Solid { translation 2.18 0 0.19 name "wall x 2.18" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.83 0.81 metalness 0 roughness 0.8 } geometry Box { size 0.035 3.8 0.38 } } ] boundingObject Box { size 0.035 3.8 0.38 } }
+Solid { translation 2.18 0 0.39 name "rail x 2.18" children [ Shape { appearance PBRAppearance { baseColor 0.42 0.46 0.49 metalness 0 roughness 0.8 } geometry Box { size 0.05 3.8 0.025 } } ] }
+Solid { translation 0.65 1.76 0.33 name "gallery frame 1" children [ Shape { appearance PBRAppearance { baseColor 0.10 0.08 0.06 metalness 0 roughness 0.8 } geometry Box { size 0.46 0.035 0.62 } } ] boundingObject Box { size 0.46 0.035 0.62 } }
+Solid { translation 0.65 1.739 0.43 name "painting 1" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/painting-1.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.195 0 -0.165, 0.195 0 -0.165, 0.195 0 0.165, -0.195 0 0.165 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation 0.65 1.738 0.13 name "ArUco 1" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/marker-1.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.11 0 -0.11, 0.11 0 -0.11, 0.11 0 0.11, -0.11 0 0.11 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation 0 1.76 0.33 name "gallery frame 2" children [ Shape { appearance PBRAppearance { baseColor 0.10 0.08 0.06 metalness 0 roughness 0.8 } geometry Box { size 0.46 0.035 0.62 } } ] boundingObject Box { size 0.46 0.035 0.62 } }
+Solid { translation 0 1.739 0.43 name "painting 2" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/painting-2.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.195 0 -0.165, 0.195 0 -0.165, 0.195 0 0.165, -0.195 0 0.165 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation 0 1.738 0.13 name "ArUco 2" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/marker-2.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.11 0 -0.11, 0.11 0 -0.11, 0.11 0 0.11, -0.11 0 0.11 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation -0.65 1.76 0.33 name "gallery frame 3" children [ Shape { appearance PBRAppearance { baseColor 0.10 0.08 0.06 metalness 0 roughness 0.8 } geometry Box { size 0.46 0.035 0.62 } } ] boundingObject Box { size 0.46 0.035 0.62 } }
+Solid { translation -0.65 1.739 0.43 name "painting 3" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/painting-3.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.195 0 -0.165, 0.195 0 -0.165, 0.195 0 0.165, -0.195 0 0.165 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation -0.65 1.738 0.13 name "ArUco 3" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/marker-3.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.11 0 -0.11, 0.11 0 -0.11, 0.11 0 0.11, -0.11 0 0.11 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation 1.82 -0.8 0.11 name "sign pole" children [ Shape { appearance PBRAppearance { baseColor 0.12 0.13 0.14 metalness 0 roughness 0.8 } geometry Box { size 0.018 0.018 0.22 } } ] }
+Solid { translation 1.82 -0.81 0.25 name "speed limit 20" children [ Shape { appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/speed-20.png" ] filtering 0 } metalness 0 roughness 1 } geometry IndexedFaceSet { coord Coordinate { point [ -0.07 0 -0.07, 0.07 0 -0.07, 0.07 0 0.07, -0.07 0 0.07 ] } texCoord TextureCoordinate { point [ 0 0, 1 0, 1 1, 0 1 ] } coordIndex [ 0 1 2 3 -1 ] solid FALSE } } ] }
+Solid { translation 1.70 0 0.20 name "traffic light" children [ Shape { appearance PBRAppearance { baseColor 0.025 0.03 0.04 metalness 0 roughness 0.8 } geometry Box { size 0.15 0.07 0.30 } } ] boundingObject Box { size 0.15 0.07 0.30 } }
+Pose { translation 1.70 -0.041 0.29 rotation 1 0 0 1.57079632679 children [ Shape { appearance DEF SIGNAL_RED PBRAppearance { baseColor 1 0.015 0.01 emissiveColor 1 0.015 0.01 metalness 0 roughness 0.5 } geometry Cylinder { radius 0.027 height 0.012 } } ] }
+Pose { translation 1.70 -0.041 0.21 rotation 1 0 0 1.57079632679 children [ Shape { appearance DEF SIGNAL_AMBER PBRAppearance { baseColor 0.025 0.025 0.025 emissiveColor 0 0 0 metalness 0 roughness 0.5 } geometry Cylinder { radius 0.027 height 0.012 } } ] }
+Pose { translation 1.70 -0.041 0.13 rotation 1 0 0 1.57079632679 children [ Shape { appearance DEF SIGNAL_GREEN PBRAppearance { baseColor 0.025 0.025 0.025 emissiveColor 0 0 0 metalness 0 roughness 0.5 } geometry Cylinder { radius 0.027 height 0.012 } } ] }
+Solid { translation 1.85 0.35 0.125 name "barrier pedestal" children [ Shape { appearance PBRAppearance { baseColor 0.08 0.11 0.15 metalness 0 roughness 0.8 } geometry Box { size 0.13 0.13 0.25 } } ] boundingObject Box { size 0.13 0.13 0.25 } }
+DEF GATE_ARM Pose { translation 1.85 0.35 0.135 rotation 0 1 0 0 children [ Solid { translation -0.45 0 0 name "barrier arm" children [ Shape { appearance PBRAppearance { baseColor 0.95 0.95 0.93 metalness 0 roughness 0.8 } geometry Box { size 0.9 0.035 0.04 } } ] boundingObject Box { size 0.9 0.035 0.04 } }
+Solid { translation -0.07 0 0 name "barrier stripe 0" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.195 0 0 name "barrier stripe 1" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.32 0 0 name "barrier stripe 2" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.445 0 0 name "barrier stripe 3" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.5700000000000001 0 0 name "barrier stripe 4" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.6950000000000001 0 0 name "barrier stripe 5" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] }
+Solid { translation -0.8200000000000001 0 0 name "barrier stripe 6" children [ Shape { appearance PBRAppearance { baseColor 0.82 0.03 0.025 metalness 0 roughness 0.8 } geometry Box { size 0.055 0.040 0.044 } } ] } ] }
 DEF TURTLEBRO TurtleBro {}
