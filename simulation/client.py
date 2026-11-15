@@ -5,6 +5,7 @@ import base64
 import math
 from pathlib import Path
 import time
+from types import SimpleNamespace
 
 from .launcher import ROOT, ensure_running, health, request
 
@@ -21,6 +22,8 @@ class TurtleBro:
         ensure_running()
         self.debug = bool(debug)
         self.callbacks = {}
+        # Совместимый с ROS способ отправить нулевую скорость без geometry_msgs.
+        self.vel_pub = SimpleNamespace(publish=self.stop)
         request("stop")
         atexit.register(self._stop_at_exit)
 

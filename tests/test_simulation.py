@@ -37,6 +37,10 @@ class WebotsApiTests(unittest.TestCase):
                 self.robot.drive(linear, angular)
         self.request.assert_not_called()
 
+    def test_ros_empty_publish_stops_wheels(self):
+        self.robot.vel_pub.publish()
+        self.request.assert_called_with("stop", [])
+
     def test_keyboard_interrupt_sends_stop(self):
         self.request.side_effect = [KeyboardInterrupt, None]
         with self.assertRaises(KeyboardInterrupt):

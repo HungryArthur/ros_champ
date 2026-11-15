@@ -1,2 +1,2 @@
-numpy>=1.26
-opencv-contrib-python>=4.10,<5
+numpy>=1.17.3,<2
+opencv-contrib-python>=4.2,<4.12
